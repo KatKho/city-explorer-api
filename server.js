@@ -7,10 +7,11 @@ const cors = require('cors');
 
 const express = require('express');
 
-const weatherData = require('./data/weather.json');
+const axios = require('axios');
 
 dotenv.config();
 const PORT = process.env.PORT;
+const API_KEY = process.env.WEATHER_API_KEY;
 
 const app = express();
 app.use(cors());
@@ -33,33 +34,35 @@ class Forecast {
 }
 
 app.get('/weather', (request, response) => {
-    const searchQuery = request.query.searchQuery;
+    const lat = parseFloat(request.query.lat);
+    const lon = parseFloat(request.query.lon);
+
+    if (isNaN(lat) || isNaN(lon)) {
+        response.status(400).send({ error: 'Invalid latitude, longitude, or city' });
+        return;
+    }
 
     try {
-        const foundCity = weatherData.find(city => {
-            return (
-                city.city_name.toLowerCase() === searchQuery.toLowerCase()
-            );
-        });
 
-        if (!foundCity) {
-            response.status(404).send({ error: 'City not found' });
-            return;
-        }
+        axios.get(`http://api.weatherbit.io/v2.0/forecast/daily?key=${API_KEY}&lat=${lat}&lon=${lon}`)
+            .then(apiResponse => {
+                const weatherForecasts = apiResponse.data.data.map(forecastData => {
+                    return new Forecast(
+                        forecastData.valid_date,
+                        forecastData.weather.description,
+                    );
+                });
 
-        const forecasts = foundCity.data.map(forecastData => {
-            return new Forecast(
-                forecastData.valid_date,
-                forecastData.weather.description,
-            );
-        });
+                response.json({
+                    lat: lat,
+                    lon: lon,
+                    forecasts: weatherForecasts,
+                });
+            })
+            .catch(apiError => {
+                handleApiError(response, apiError);
+            });
 
-        response.send({
-            city: foundCity.city_name,
-            lat: foundCity.lat,
-            lon: foundCity.lon,
-            forecasts: forecasts,
-        });
     } catch (error) {
         handleApiError(response, error);
     }
