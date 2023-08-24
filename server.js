@@ -82,41 +82,6 @@ app.get('/weather', (request, response) => {
 });
 
 
-app.get('/weather', (request, response) => {
-    const lat = parseFloat(request.query.lat);
-    const lon = parseFloat(request.query.lon);
-
-    if (isNaN(lat) || isNaN(lon)) {
-        response.status(400).send({ error: 'Invalid latitude, longitude, or city' });
-        return;
-    }
-
-    try {
-
-        axios.get(`http://api.weatherbit.io/v2.0/forecast/daily?key=${API_KEY}&lat=${lat}&lon=${lon}`)
-            .then(apiResponse => {
-                const weatherForecasts = apiResponse.data.data.map(forecastData => {
-                    return new Forecast(
-                        forecastData.valid_date,
-                        forecastData.weather.description,
-                    );
-                });
-
-                response.json({
-                    lat: lat,
-                    lon: lon,
-                    forecasts: weatherForecasts,
-                });
-            })
-            .catch(apiError => {
-                handleApiError(response, apiError);
-            });
-
-    } catch (error) {
-        handleApiError(response, error);
-    }
-});
-
 app.get('/movies', (request, response) => {
     const city = request.query.city;
 
