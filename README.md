@@ -11,7 +11,7 @@
 
 ## Architecture
 
-![Lab 07](LAB07.png)
+![Lab 07](LAB08.png)
 
 ## Change Log
 <!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an example:
@@ -30,5 +30,16 @@ Estimate of time needed to complete: 2 hrs
 Start time: 2:47 pm
 
 Finish time: 7:40 pm
+
+Actual time needed to complete: 3 hrs
+
+
+Name of feature: Weather and Movies api
+
+Estimate of time needed to complete: 3 hrs
+
+Start time: 2:15 pm
+
+Finish time: 11 pm
 
 Actual time needed to complete: 3 hrs
