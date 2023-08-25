@@ -45,6 +45,17 @@ Finish time: 11 pm
 Actual time needed to complete: 3 hrs
 
 
+Name of feature: Refactoring into Modules
+
+Estimate of time needed to complete: 3 hrs
+
+Start time: 1:50 pm
+
+Finish time: 10:21 pm
+
+Actual time needed to complete: 2 hrs
+
+
 Name of feature: Cache
 
 Estimate of time needed to complete: 2 hrs
