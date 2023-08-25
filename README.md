@@ -54,3 +54,14 @@ Start time: 1:50 pm
 Finish time: 10:21 pm
 
 Actual time needed to complete: 2 hrs
+
+
+Name of feature: Cache
+
+Estimate of time needed to complete: 2 hrs
+
+Start time: 1:30 pm
+
+Finish time: 2:57 pm
+
+Actual time needed to complete: 1 hr 27 min

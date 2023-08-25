@@ -14,7 +14,7 @@ const handleMovies = require('./movies.js');
 const cache = {};
 
 dotenv.config();
-const PORT = process.env.PORT || 5173;
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 app.use(cors());
