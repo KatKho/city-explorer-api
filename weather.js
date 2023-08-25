@@ -3,6 +3,8 @@
 
 const axios = require('axios');
 const API_KEY = process.env.WEATHER_API_KEY;
+const cache = {};
+const CACHE_DURATION = 3600;
 
 class Forecast {
     constructor(date, description) {
@@ -30,6 +32,14 @@ const handleWeather = async (request, response) => {
         return;
     }
 
+    const cacheKey = `${lat},${lon}`;
+
+    if (cache[cacheKey] && cache[cacheKey].timestamp + CACHE_DURATION > Date.now()) {
+        console.log('Using cached data for:', lat, lon);
+        response.json(cache[cacheKey].data);
+        return;
+    }
+
     try {
         const apiResponse = await axios.get(`http://api.weatherbit.io/v2.0/forecast/daily?key=${API_KEY}&lat=${lat}&lon=${lon}`);
 
@@ -40,11 +50,16 @@ const handleWeather = async (request, response) => {
             );
         });
 
-        response.json({
-            lat: lat,
-            lon: lon,
-            forecasts: weatherForecasts,
-        });
+        cache[cacheKey] = {
+            timestamp: Date.now(),
+            data: {
+                lat: lat,
+                lon: lon,
+                forecasts: weatherForecasts,
+            },
+        };
+
+        response.json(cache[cacheKey].data); 
     } catch (error) {
         handleApiError(response, error);
     }

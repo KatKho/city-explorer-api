@@ -3,6 +3,8 @@
 
 const axios = require('axios');
 const API_KEY_2 = process.env.MOVIE_API_KEY;
+const cache = {};
+const CACHE_DURATION = 3600;
 
 class Movie {
     constructor(title, overview, average_votes, total_votes, image_url, popularity, released_on) {
@@ -34,10 +36,15 @@ const handleMovies = async (request, response) => {
         return;
     }
 
+    if (cache[city] && cache[city].timestamp + CACHE_DURATION > Date.now()) {
+        console.log('Using cached data for:', city);
+        response.json(cache[city].data);
+        return;
+    }
+
     try {
-        axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY_2}&query=${city}`)
-            .then(apiResponse => {
-                const movieData = apiResponse.data.results.map(movie => {
+        const apiResponse = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY_2}&query=${city}`);
+            const movieData = apiResponse.data.results.map(movie => {
                     return new Movie(
                         movie.title,
                         movie.overview,
@@ -49,11 +56,12 @@ const handleMovies = async (request, response) => {
                     );
                 });
 
+                cache[city] = {
+                    timestamp: Date.now(),
+                    data: movieData,
+                };
+
                 response.json(movieData);
-            })
-            .catch(apiError => {
-                handleApiError(response, apiError);
-            });
     } catch (error) {
         handleApiError(response, error);
     }
