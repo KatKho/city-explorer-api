@@ -32,10 +32,10 @@ const handleWeather = async (request, response) => {
         return;
     }
 
-    const cacheKey = `${lat},${lon}`;
+    const cacheKey = `weather:${lat},${lon}`; // Use cacheKey instead of lat and lon
 
     if (cache[cacheKey] && cache[cacheKey].timestamp + CACHE_DURATION > Date.now()) {
-        console.log('Using cached data for:', lat, lon);
+        console.log('Using cached data for:', cacheKey);
         response.json(cache[cacheKey].data);
         return;
     }
