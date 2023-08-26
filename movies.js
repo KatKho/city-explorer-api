@@ -1,9 +1,12 @@
 /* eslint-disable indent */
 'use strict';
 
+
 const axios = require('axios');
 const API_KEY_2 = process.env.MOVIE_API_KEY;
-const cache = {};
+const cache = {
+    movies: {},
+};
 const CACHE_DURATION = 3600;
 
 class Movie {
