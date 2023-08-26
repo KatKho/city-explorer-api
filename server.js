@@ -11,7 +11,10 @@ const handleWeather = require('./weather.js');
 
 const handleMovies = require('./movies.js');
 
-const cache = {};
+const cache = {
+    movies: {},
+    weather: {},
+  };
 
 dotenv.config();
 const PORT = process.env.PORT || 3001;
