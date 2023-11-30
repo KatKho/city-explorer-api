@@ -1,67 +1,64 @@
+
 # City Explorer API
 
-**Author**: Ekaterina Khoroshilova
-**Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
+The City Explorer backend complements the City Explorer web application by providing essential APIs and data handling. It ensures seamless delivery of real-time information for urban exploration, including weather forecasts and movie data.
 
-## Overview
-<!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
+## Version
 
-## Getting Started
-<!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
+Current version: v1.0
 
-## Architecture
+## Features
 
-![Lab 07](LAB08.png)
+- **API Integration**: Manages API calls for weather and movie data.
+- **Data Processing**: Processes and formats data for the frontend application.
+- **Security**: Ensures secure data handling and API usage.
 
-## Change Log
-<!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an example:
+## Installation
 
-01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource. -->
+Set up the City Explorer backend with the following steps:
 
-## Credit and Collaborations
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
-Time Estimates
-For each of the lab features, make an estimate of the time it will take you to complete the feature, and record your start and finish times for that feature:
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/KatKho/city-explorer-api.git
+   ```
 
-Name of feature: City explorer api
+2. **Navigate to the Project Directory**:
+   ```bash
+   cd city-explorer-api
+   ```
 
-Estimate of time needed to complete: 2 hrs
+3. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-Start time: 2:47 pm
+4. **Environment Configuration**:
+   - Create a `.env` file in the project root.
+   - Add the following environment variables:
+     ```
+     PORT=your_port_number
+     WEATHER_API_KEY=your_weather_api_key_here
+     MOVIE_API_KEY=your_movie_api_key_here
+     ```
 
-Finish time: 7:40 pm
+5. **Run the Server**:
+   ```bash
+   npm start
+   ```
 
-Actual time needed to complete: 3 hrs
+## Domain Modeling
 
+The backend architecture is designed to support efficient data handling and API management.
 
-Name of feature: Weather and Movies api
+![Domain Modeling](./Domain.png)
 
-Estimate of time needed to complete: 3 hrs
+## Technology Stack
 
-Start time: 2:15 pm
+- **Express.js**: The core framework for handling server-side operations and API requests.
+- **Node.js**: Provides the runtime environment for the backend services.
 
-Finish time: 11 pm
+## Contact
 
-Actual time needed to complete: 3 hrs
+For questions or contributions, connect with:
 
-
-Name of feature: Refactoring into Modules
-
-Estimate of time needed to complete: 3 hrs
-
-Start time: 1:50 pm
-
-Finish time: 10:21 pm
-
-Actual time needed to complete: 2 hrs
-
-
-Name of feature: Cache
-
-Estimate of time needed to complete: 2 hrs
-
-Start time: 1:30 pm
-
-Finish time: 2:57 pm
-
-Actual time needed to complete: 1 hr 27 min
+- [Ekaterina Khoroshilova](https://www.linkedin.com/in/ekaterina-khoroshilova)
