@@ -57,7 +57,7 @@ const handleEvents = async (request, response) => {
 
   try {
     const apiResponse = await axios.get(`https://api.yelp.com/v3/events`, {
-      Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+      headers: { Authorization: `Bearer ${process.env.YELP_API_KEY}` },
       params: { location: location }
     });
 
