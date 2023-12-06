@@ -1,9 +1,8 @@
 'use strict';
 
 const axios = require('axios');
-const YELP_API_KEY = process.env.YELP_API_KEY;
 const cache = {};
-const CACHE_DURATION = 3600 * 1000; 
+const CACHE_DURATION = 3600 * 1000; // 1 hour in milliseconds
 
 class Event {
   constructor(
@@ -27,10 +26,8 @@ class Event {
   }
 }
 
-// Function to handle API errors
 function handleApiError(response, error) {
   console.error('API Error:', error);
-
   if (error.response) {
     response.status(error.response.status).send(error.response.data);
   } else {
@@ -38,16 +35,16 @@ function handleApiError(response, error) {
   }
 }
 
-// Async function to handle fetching events
 const handleEvents = async (request, response) => {
-  const { location } = request.query;
+  const { location, start_date } = request.query;
 
   if (!location) {
     response.status(400).send({ error: 'Location parameter is required.' });
     return;
   }
 
-  const cacheKey = `events:${location}`;
+  // Prepare the cache key with start_date if it's provided
+  const cacheKey = `events:${location}:${start_date || ''}`;
 
   if (cache[cacheKey] && (Date.now() - cache[cacheKey].timestamp) < CACHE_DURATION) {
     console.log('Using cached data for:', cacheKey);
@@ -56,12 +53,17 @@ const handleEvents = async (request, response) => {
   }
 
   try {
+    const params = { location };
+    if (start_date) {
+      params.start_date = parseInt(start_date, 10);
+    }
+
     const apiResponse = await axios.get(`https://api.yelp.com/v3/events`, {
       headers: { Authorization: `Bearer ${process.env.YELP_API_KEY}` },
-      params: { location: location }
+      params: params
     });
 
-    const events = apiResponse.data.events.map(eventData => new Event(
+    const eventsData = apiResponse.data.events.map(eventData => new Event(
       eventData.description,
       eventData.image_url,
       eventData.name,
@@ -75,10 +77,10 @@ const handleEvents = async (request, response) => {
     // Cache the new data with a timestamp
     cache[cacheKey] = {
       timestamp: Date.now(),
-      data: events,
+      data: eventsData,
     };
 
-    response.json(events);
+    response.json(eventsData);
   } catch (error) {
     handleApiError(response, error);
   }
