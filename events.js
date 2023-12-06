@@ -1,3 +1,5 @@
+'use strict';
+
 const axios = require('axios');
 const YELP_API_KEY = process.env.YELP_API_KEY;
 const cache = {};
@@ -55,7 +57,7 @@ const handleEvents = async (request, response) => {
 
   try {
     const apiResponse = await axios.get(`https://api.yelp.com/v3/events`, {
-      headers: { Authorization: `Bearer ${YELP_API_KEY}` },
+      Authorization: `Bearer ${process.env.YELP_API_KEY}`,
       params: { location: location }
     });
 
