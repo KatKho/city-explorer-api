@@ -16,6 +16,7 @@ const handleEvents = require('./events.js');
 const cache = {
     movies: {},
     weather: {},
+    events: {},
   };
 
 dotenv.config();
