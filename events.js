@@ -36,7 +36,7 @@ function handleApiError(response, error) {
 }
 
 const handleEvents = async (request, response) => {
-  const { location, start_date } = request.query;
+  const { location, start_date, limit = 30, offset = 0 } = request.query;
 
   if (!location) {
     response.status(400).send({ error: 'Location parameter is required.' });
@@ -53,10 +53,13 @@ const handleEvents = async (request, response) => {
   }
 
   try {
-    const params = { location };
-    if (start_date) {
-      params.start_date = parseInt(start_date, 10);
-    }
+    const params = {
+      location,
+      limit,
+      offset,
+      // start_date should be added if provided
+      ...(start_date && { start_date: parseInt(start_date, 10) })
+    };
 
     const apiResponse = await axios.get(`https://api.yelp.com/v3/events`, {
       headers: { Authorization: `Bearer ${process.env.YELP_API_KEY}` },
