@@ -5,12 +5,13 @@ const API_KEY = process.env.WEATHER_API_KEY;
 const cache = {
     weather: {},
 };
-const CACHE_DURATION = 3600; // Cache duration in seconds
+const CACHE_DURATION = 3600;
 
 class Forecast {
-    constructor(date, description) {
+    constructor(date, description, icon) {
         this.date = date;
         this.description = description;
+        this.icon = icon;
     }
 }
 
@@ -29,32 +30,28 @@ const handleWeather = async (request, response) => {
     const lon = parseFloat(request.query.lon);
 
     if (isNaN(lat) || isNaN(lon)) {
-        response.status(400).send({ error: 'Invalid latitude or longitude values' });
+        response.status(400).send({ error: 'Invalid latitude, longitude, or city' });
         return;
     }
 
     const cacheKey = `weather:${lat},${lon}`;
 
-    if (cache[cacheKey] && (cache[cacheKey].timestamp + CACHE_DURATION * 1000) > Date.now()) {
+    if (cache[cacheKey] && cache[cacheKey].timestamp + CACHE_DURATION > Date.now()) {
         console.log('Using cached data for:', cacheKey);
         response.json(cache[cacheKey].data);
         return;
     }
 
     try {
-        const apiResponse = await axios.get(`https://api.weatherbit.io/v2.0/forecast/daily`, {
-            params: {
-                key: API_KEY,
-                lat: lat,
-                lon: lon,
-                days: 16 
-            }
-        });
+        const apiResponse = await axios.get(`http://api.weatherbit.io/v2.0/forecast/daily?key=${API_KEY}&lat=${lat}&lon=${lon}`);
 
-        const weatherForecasts = apiResponse.data.data.map(forecastData => new Forecast(
-            forecastData.valid_date,
-            forecastData.weather.description
-        ));
+        const weatherForecasts = apiResponse.data.data.map(forecastData => {
+            return new Forecast(
+                forecastData.valid_date,
+                forecastData.weather.description,
+                forecastData.weather.icon
+            );
+        });
 
         cache[cacheKey] = {
             timestamp: Date.now(),
@@ -65,7 +62,7 @@ const handleWeather = async (request, response) => {
             },
         };
 
-        response.json(cache[cacheKey].data);
+        response.json(cache[cacheKey].data); 
     } catch (error) {
         handleApiError(response, error);
     }
