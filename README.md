@@ -51,7 +51,7 @@ Set up the City Explorer backend with the following steps:
 
 The backend architecture is designed to support efficient data handling and API management.
 
-![Domain Modeling](./Domain.png)
+![Domain Modeling](./Domain-model.png)
 
 ## Technology Stack
 
