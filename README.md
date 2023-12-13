@@ -39,7 +39,7 @@ Set up the City Explorer backend with the following steps:
      PORT=your_port_number
      WEATHER_API_KEY=your_weather_api_key_here
      MOVIE_API_KEY=your_movie_api_key_here
-     YELP_API_KEY=<Your_Yelp_API_Key>
+     YELP_API_KEY=your_Yelp_api_key_here
      ```
 
 5. **Run the Server**:
