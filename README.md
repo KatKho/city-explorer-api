@@ -1,11 +1,11 @@
 
 # City Explorer API
 
-The City Explorer backend complements the City Explorer web application by providing essential APIs and data handling. It ensures seamless delivery of real-time information for urban exploration, including weather forecasts and movie data.
+City Explorer is an engaging web application that enhances urban exploration with real-time information. It provides detailed maps, current weather forecasts, a curated selection of movies, and popular events in the city. Built with React.js and Bootstrap, and supported by Express.js, City Explorer brings city exploration to life.
 
 ## Version
 
-Current version: v1.0
+The application is currently at version 1.1, featuring Yelp API integration for events.
 
 ## Features
 
@@ -39,6 +39,7 @@ Set up the City Explorer backend with the following steps:
      PORT=your_port_number
      WEATHER_API_KEY=your_weather_api_key_here
      MOVIE_API_KEY=your_movie_api_key_here
+     YELP_API_KEY=<Your_Yelp_API_Key>
      ```
 
 5. **Run the Server**:
